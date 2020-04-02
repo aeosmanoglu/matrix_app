@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:matrixapp/home_page.dart';
+import 'package:matrixapp/login_obj.dart';
+import 'package:matrixapp/motor.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -6,6 +9,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String user;
+  String password;
+
   InputDecoration _decoration(String label, Icon icon) {
     return InputDecoration(
       border: OutlineInputBorder(),
@@ -25,18 +31,27 @@ class _LoginPageState extends State<LoginPage> {
             TextField(
               keyboardType: TextInputType.numberWithOptions(),
               decoration: _decoration("Kurum Kimlik Numarası", Icon(Icons.person)),
+              onChanged: (text) {
+                user = text;
+              },
             ),
             SizedBox(height: 8),
             TextField(
               obscureText: true,
               decoration: _decoration("Parola", Icon(Icons.vpn_key)),
+              onChanged: (text) {
+                password = text;
+              },
             ),
             SizedBox(height: 8),
             RaisedButton(
               color: Theme.of(context).accentColor,
               child: Text("GİRİŞ", style: Theme.of(context).textTheme.button),
-              onPressed: () {
-                print("pressed");
+              onPressed: () async {
+                LoginObj obj = await Motor().login(user, password);
+                if (obj.userId != null) {
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => new HomePage(obj)));
+                }
               },
             )
           ],
