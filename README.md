@@ -49,7 +49,7 @@ A new instant messaging Flutter application.
 
   2. `homeserver.db` dosyasında aşağıdaki kodlar execute edildi.
 
-  ```sqlite
+  ```sql
   -- Set up staging tables
   INSERT INTO background_updates (update_name, progress_json) VALUES
       ('populate_user_directory_createtables', '{}');
