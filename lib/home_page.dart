@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:matrixapp/login_obj.dart';
 import 'package:matrixapp/login_page.dart';
 import 'package:matrixapp/motor.dart';
+import 'package:matrixapp/user_search_page.dart';
 
 class HomePage extends StatefulWidget {
   final LoginObj me;
@@ -37,6 +38,12 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Center(
         child: Text(widget.me.userId),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.search),
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => new UserSearchPage(widget.me)));
+        },
       ),
     );
   }
