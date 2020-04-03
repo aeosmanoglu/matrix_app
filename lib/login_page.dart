@@ -29,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
+              autocorrect: false,
               keyboardType: TextInputType.numberWithOptions(),
               decoration: _decoration("Kurum Kimlik Numarası", Icon(Icons.person)),
               onChanged: (text) {
@@ -37,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SizedBox(height: 8),
             TextField(
+              autocorrect: false,
               obscureText: true,
               decoration: _decoration("Parola", Icon(Icons.vpn_key)),
               onChanged: (text) {
