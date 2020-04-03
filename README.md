@@ -1,16 +1,75 @@
-# matrixapp
+# Matrix Flutter App
 
 A new instant messaging Flutter application.
 
-## Getting Started
+## Geliştirme Politikası
 
-This project is a starting point for a Flutter application.
+1. **Sistem özelden genele doğru tasarlanacak:** Tüm Jandarma Genel Komutanlığı personelinin mesajlaşması için değil, sadece küçük bir kesimin sorunsuz bir şekilde kullanabilmesi için tasarlanacak.
+1. **Sisteme özellik kısıtlamaları sonradan eklenecek:** Kimin kimle konuşup konuşamayacağı, grup kurup kuramayacağı gibi kısıtlamalar olmayacak. Gerekirse sonradan eklenecek.
+1. **Öncelikle en temel ihtiyaçlara cevap verecek:** Güvenli mesajlaşma. Sistem önce metin mesajı gönderecek sonra bunu anlık olarak sağlayacak. Eklenti gönderme ve görüntülü görüşme daha sonra sırayla eklenecek.
+1. **Uygulamalar Dart ve Flutter SDK ile geliştirilecek:** SDK desteklediği sürece iOS, Android, macOS, Windows, browser uygulamaları olacak. 
+1. **Sade ve basit olacak:** Hem arayüzde hem de kodlamanın genelinde. Gereksiz tüm özelleştirmeler ve kodlamalardan kaçınılacak.
 
-A few resources to get you started if this is your first Flutter project:
+## Kaynaklar
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+1. [Client-Server API](https://matrix.org/docs/spec/client_server/r0.6.0)
+1. [Synapse](https://github.com/matrix-org/synapse)
+1. [Synapse LDAP Provider](https://github.com/matrix-org/matrix-synapse-ldap3)
+1. [Sygnal](https://github.com/matrix-org/sygnal)
+1. [Logo fikri](https://dribbble.com/shots/10859189-Cute-Minimal-Bird)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Yapılacaklar
+
+- [x] Synapse sunucu kurulumu
+- [x] LDAP AD entegrasyonu
+  1. `/env/lib/python3.7/site-packages/synapse/handlers/register.py` dosyasında aşağıdaki kod parçası comment edildi.
+
+  ```python
+  if not was_guest:
+    try:
+      int(localpart)
+      raise SynapseError(
+        400, "Numeric user IDs are reserved for guest users."
+      )
+    except ValueError:
+    pass
+  ```
+
+- [x] 0.1.0 Login
+  - [x] Login
+  - [x] Logout
+- [x] 0.2.0 Find Users
+  1. `homeserver.yaml` dosyasındaki aşağıdaki kod parçası uncomment edildi. `search_all_users: true` olarak düzeltildi.
+  
+  ```yaml
+  user_directory:
+    enabled: true
+    search_all_users: true
+  ```
+
+  2. `homeserver.db` dosyasında aşağıdaki kodlar execute edildi.
+
+  ```sqlite
+  -- Set up staging tables
+  INSERT INTO background_updates (update_name, progress_json) VALUES
+      ('populate_user_directory_createtables', '{}');
+  
+  -- Run through each room and update the user directory according to who is in it
+  INSERT INTO background_updates (update_name, progress_json, depends_on) VALUES
+      ('populate_user_directory_process_rooms', '{}', 'populate_user_directory_createtables');
+  
+  -- Insert all users, if search_all_users is on
+  INSERT INTO background_updates (update_name, progress_json, depends_on) VALUES
+      ('populate_user_directory_process_users', '{}', 'populate_user_directory_process_rooms');
+  
+  -- Clean up staging tables
+  INSERT INTO background_updates (update_name, progress_json, depends_on) VALUES
+      ('populate_user_directory_cleanup', '{}', 'populate_user_directory_process_users');
+  ```
+  
+  3. Sunucu kapatılıp tekrar açıldı. Restart çalışmadı.
+- [ ] 0.2.0 Create room
+- [ ] 0.3.0 Send Recieve text messages
+- [ ] 0.4.0 Push notification
+- [ ] Sunucu ve iletişim güvenliği
+- [ ] 1.0.0 Logo
