@@ -12,6 +12,14 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^0.1.2
   http:
+  flutter_launcher_icons:
+
+flutter_icons:
+  image_path: "assets/logo/iOS.png"
+  android: true
+  ios: true
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "assets/logo/android.png"
 
 dev_dependencies:
   flutter_test:
