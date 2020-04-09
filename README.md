@@ -4,7 +4,7 @@ A new instant messaging Flutter application.
 
 ## Geliştirme Politikası
 
-1. **Sistem özelden genele doğru tasarlanacak:** Tüm Jandarma Genel Komutanlığı personelinin mesajlaşması için değil, sadece küçük bir kesimin sorunsuz bir şekilde kullanabilmesi için tasarlanacak.
+1. **Sistem özelden genele doğru tasarlanacak:** Tüm kurum personelinin mesajlaşması için değil, sadece küçük bir kesimin sorunsuz bir şekilde kullanabilmesi için tasarlanacak.
 1. **Sisteme özellik kısıtlamaları sonradan eklenecek:** Kimin kimle konuşup konuşamayacağı, grup kurup kuramayacağı gibi kısıtlamalar olmayacak. Gerekirse sonradan eklenecek.
 1. **Öncelikle en temel ihtiyaçlara cevap verecek:** Güvenli mesajlaşma. Sistem önce metin mesajı gönderecek sonra bunu anlık olarak sağlayacak. Eklenti gönderme ve görüntülü görüşme daha sonra sırayla eklenecek.
 1. **Uygulamalar Dart ve Flutter SDK ile geliştirilecek:** SDK desteklediği sürece iOS, Android, macOS, Windows, browser uygulamaları olacak. 
@@ -68,8 +68,9 @@ A new instant messaging Flutter application.
   ```
   
   3. Sunucu kapatılıp tekrar açıldı. Restart çalışmadı.
-- [ ] 0.2.0 Create room
-- [ ] 0.3.0 Send Recieve text messages
-- [ ] 0.4.0 Push notification
+- [ ] 0.3.0 List Rooms
+- [ ] 0.4.0 Create room
+- [ ] 0.5.0 Send Recieve text messages
+- [ ] 0.6.0 Push notification
 - [ ] Sunucu ve iletişim güvenliği
 - [ ] 1.0.0 Logo
