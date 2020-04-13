@@ -41,30 +41,28 @@ class _RoomsPageState extends State<RoomsPage> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
+    Motor().joinedRooms(widget.me.accessToken);
     return Scaffold(
       appBar: appBar(),
-      body: FutureBuilder(
-        future: Motor().joinedRooms(widget.me.accessToken),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: ListTile(
-                    title: Text(snapshot.data[index].toString()),
-                  ),
-                );
-              },
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
+      //body: FutureBuilder(
+      //  future: Motor().joinedRooms(widget.me.accessToken),
+      //  builder: (context, snapshot) {
+      //    if (snapshot.connectionState == ConnectionState.done) {
+      //      return ListView.builder(
+      //        itemCount: snapshot.data.length,
+      //        itemBuilder: (context, index) {
+      //          return Card(
+      //            child: ListTile(
+      //              title: Text(snapshot.data[index].toString()),
+      //            ),
+      //          );
+      //        },
+      //      );
+      //    } else {
+      //      return Center(child: CircularProgressIndicator());
+      //    }
+      //  },
+      //),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.search),
         onPressed: () {

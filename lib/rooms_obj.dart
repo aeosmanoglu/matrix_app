@@ -14,7 +14,7 @@ class JoinedRooms {
   }
 }
 
-class RoomName {
+class RoomState {
   String type;
   String roomId;
   String sender;
@@ -26,29 +26,27 @@ class RoomName {
   String userId;
   int age;
 
-  RoomName(
-      {this.type,
-        this.roomId,
-        this.sender,
-        this.content,
-        this.stateKey,
-        this.originServerTs,
-        this.unsigned,
-        this.eventId,
-        this.userId,
-        this.age});
+  RoomState({
+    this.type,
+    this.roomId,
+    this.sender,
+    this.content,
+    this.stateKey,
+    this.originServerTs,
+    this.unsigned,
+    this.eventId,
+    this.userId,
+    this.age,
+  });
 
-  RoomName.fromJson(Map<String, dynamic> json) {
+  RoomState.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     roomId = json['room_id'];
     sender = json['sender'];
-    content =
-    json['content'] != null ? new Content.fromJson(json['content']) : null;
+    content = json['content'] != null ? new Content.fromJson(json['content']) : null;
     stateKey = json['state_key'];
     originServerTs = json['origin_server_ts'];
-    unsigned = json['unsigned'] != null
-        ? new Unsigned.fromJson(json['unsigned'])
-        : null;
+    unsigned = json['unsigned'] != null ? new Unsigned.fromJson(json['unsigned']) : null;
     eventId = json['event_id'];
     userId = json['user_id'];
     age = json['age'];
@@ -75,17 +73,99 @@ class RoomName {
 }
 
 class Content {
+  List aliases;
+  String alias;
+  bool mFederate;
+  String roomVersion;
+  String creator;
+  String historyVisibility;
+  String joinRule;
+  String membership;
+  String displayname;
+  String avatarUrl;
   String name;
+  Map users;
+  int usersDefault;
+  Map events;
+  int eventsDefault;
+  int stateDefault;
+  int ban;
+  int kick;
+  int redact;
+  int invite;
+  String topic;
 
-  Content({this.name});
+  Content({
+    this.aliases,
+    this.alias,
+    this.mFederate,
+    this.roomVersion,
+    this.creator,
+    this.historyVisibility,
+    this.joinRule,
+    this.membership,
+    this.displayname,
+    this.avatarUrl,
+    this.name,
+    this.users,
+    this.usersDefault,
+    this.events,
+    this.eventsDefault,
+    this.stateDefault,
+    this.ban,
+    this.kick,
+    this.redact,
+    this.invite,
+    this.topic,
+  });
 
   Content.fromJson(Map<String, dynamic> json) {
+    aliases = json['aliases'];
+    alias = json['alias'];
+    mFederate = json['mFederate'];
+    roomVersion = json['roomVersion'];
+    creator = json['creator'];
+    historyVisibility = json['historyVisibility'];
+    joinRule = json['joinRule'];
+    membership = json['membership'];
+    displayname = json['displayname'];
+    avatarUrl = json['avatarUrl'];
     name = json['name'];
+    users = json['users'];
+    usersDefault = json['usersDefault'];
+    events = json['events'];
+    eventsDefault = json['eventsDefault'];
+    stateDefault = json['stateDefault'];
+    ban = json['ban'];
+    kick = json['kick'];
+    redact = json['redact'];
+    invite = json['invite'];
+    topic = json['topic'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['aliases'] = this.aliases;
+    data['alias'] = this.alias;
+    data['mFederate'] = this.mFederate;
+    data['roomVersion'] = this.roomVersion;
+    data['creator'] = this.creator;
+    data['historyVisibility'] = this.historyVisibility;
+    data['joinRule'] = this.joinRule;
+    data['membership'] = this.membership;
+    data['displayname'] = this.displayname;
+    data['avatarUrl'] = this.avatarUrl;
     data['name'] = this.name;
+    data['users'] = this.users;
+    data['usersDefault'] = this.usersDefault;
+    data['events'] = this.events;
+    data['eventsDefault'] = this.eventsDefault;
+    data['stateDefault'] = this.stateDefault;
+    data['ban'] = this.ban;
+    data['kick'] = this.kick;
+    data['redact'] = this.redact;
+    data['invite'] = this.invite;
+    data['topic'] = this.topic;
     return data;
   }
 }
@@ -93,7 +173,9 @@ class Content {
 class Unsigned {
   int age;
 
-  Unsigned({this.age});
+  Unsigned({
+    this.age,
+  });
 
   Unsigned.fromJson(Map<String, dynamic> json) {
     age = json['age'];
