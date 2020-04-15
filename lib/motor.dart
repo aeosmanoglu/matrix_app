@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:matrixapp/login_obj.dart';
@@ -46,10 +47,15 @@ class Motor {
     Response response = await get(url, headers: headers);
     JoinedRooms roomsID = JoinedRooms.fromJson(jsonDecode(response.body));
 
-    //TODO: Get state (esp. room name) for each joined room id
-    roomsID.joinedRooms.forEach((roomID) {
-      print(roomID);
-    });
+    List names = [];
+
+    for (String roomID in roomsID.joinedRooms) {
+      await roomState(accessToken, roomID).then((value) {
+        names.add(value[6].content.name);
+      });
+    }
+
+    return names;
   }
 
   Future<List<RoomState>> roomState(String accessToken, String roomID) async {

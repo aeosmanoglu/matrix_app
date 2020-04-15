@@ -68,7 +68,7 @@ A new instant messaging Flutter application.
   ```
   
   3. Sunucu kapatılıp tekrar açıldı. Restart çalışmadı.
-- [ ] 0.3.0 List Rooms
+- [x] 0.3.0 List Rooms
 - [ ] 0.4.0 Create room
 - [ ] 0.5.0 Send Recieve text messages
 - [ ] 0.6.0 Push notification
