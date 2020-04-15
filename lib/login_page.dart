@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:matrixapp/home_page.dart';
+import 'package:matrixapp/rooms_page.dart';
 import 'package:matrixapp/login_obj.dart';
 import 'package:matrixapp/motor.dart';
 
@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () async {
                 LoginObj obj = await Motor().login(user, password);
                 if (obj.userId != null) {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => new HomePage(obj)));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => new RoomsPage(obj)));
                 }
               },
             )

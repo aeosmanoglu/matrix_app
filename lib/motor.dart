@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:matrixapp/login_obj.dart';
+import 'package:matrixapp/rooms_obj.dart';
 import 'package:matrixapp/user_search_obj.dart';
 
 class Motor {
@@ -13,8 +15,8 @@ class Motor {
     Map<String, String> identifier = {"type": "m.id.user", "user": user};
     String body = jsonEncode({"type": type, "identifier": identifier, "password": password});
     Response response = await post(url, headers: headers, body: body);
-    LoginObj obj = LoginObj.fromJson(jsonDecode(response.body));
-    return obj;
+    LoginObj login = LoginObj.fromJson(jsonDecode(response.body));
+    return login;
   }
 
   logout(String accessToken) async {
@@ -35,7 +37,32 @@ class Motor {
     Map<String, String> headers = {"content-type": "application/json", "authorization": "Bearer $accessToken"};
     String body = jsonEncode({"search_term": searchTerm});
     Response response = await post(url, headers: headers, body: body);
-    UserSearchObj obj = UserSearchObj.fromJson(jsonDecode(response.body));
-    return obj.results;
+    UserSearchObj users = UserSearchObj.fromJson(jsonDecode(response.body));
+    return users.results;
+  }
+
+  Future<List> joinedRooms(String accessToken) async {
+    String url = server + "/_matrix/client/r0/joined_rooms";
+    Map<String, String> headers = {"Authorization": "Bearer $accessToken"};
+    Response response = await get(url, headers: headers);
+    JoinedRooms roomsID = JoinedRooms.fromJson(jsonDecode(response.body));
+
+    List names = [];
+
+    for (String roomID in roomsID.joinedRooms) {
+      await roomState(accessToken, roomID).then((value) {
+        names.add(value[6].content.name);
+      });
+    }
+
+    return names;
+  }
+
+  Future<List<RoomState>> roomState(String accessToken, String roomID) async {
+    String url = server + "/_matrix/client/r0/rooms/$roomID/state";
+    Map<String, String> headers = {"Authorization": "Bearer $accessToken"};
+    Response response = await get(url, headers: headers);
+    List<RoomState> states = (json.decode(response.body) as List).map((i) => RoomState.fromJson(i)).toList();
+    return states;
   }
 }
