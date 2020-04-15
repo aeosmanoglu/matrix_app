@@ -22,8 +22,7 @@ class Motor {
   logout(String accessToken) async {
     String url = server + "/_matrix/client/r0/logout";
     Map<String, String> headers = {"authorization": "Bearer $accessToken"};
-    Response response = await post(url, headers: headers);
-    print(response.statusCode);
+    await post(url, headers: headers);
   }
 
   logoutAll(String accessToken) async {
@@ -51,7 +50,8 @@ class Motor {
 
     for (String roomID in roomsID.joinedRooms) {
       await roomState(accessToken, roomID).then((value) {
-        names.add(value[6].content.name);
+        //TODO: Value[5] uygun bir kullanım değil. Problem çıkaracak
+        names.add(value[5].content.name);
       });
     }
 
@@ -64,5 +64,17 @@ class Motor {
     Response response = await get(url, headers: headers);
     List<RoomState> states = (json.decode(response.body) as List).map((i) => RoomState.fromJson(i)).toList();
     return states;
+  }
+
+  createRoom(String accessToken, String roomName, String userID) async {
+
+    if (roomName == null || roomName == ""){
+      roomName = "Konusuz";
+    }
+
+    String url = server + "/_matrix/client/r0/createRoom";
+    Map<String, String> headers = {"content-type": "application/json", "authorization": "Bearer $accessToken"};
+    String body = jsonEncode({"name": roomName, "invite": [userID]});
+    await post(url, headers: headers, body: body);
   }
 }
