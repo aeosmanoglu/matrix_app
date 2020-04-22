@@ -13,6 +13,7 @@ class UserSearchPage extends StatefulWidget {
 
 class _UserSearchPageState extends State<UserSearchPage> {
   List<Results> results = [];
+  String roomName = "";
 
   @override
   Widget build(BuildContext context) {
@@ -37,16 +38,52 @@ class _UserSearchPageState extends State<UserSearchPage> {
                 results.length,
                 (i) {
                   return ListTile(
-                      title: Text(results[i].displayName),
-                      onTap: () {
-                        print(results[i].userId);
-                      });
+                    title: Text(results[i].displayName),
+                    onTap: () => createRoomDialog(results[i].userId),
+                  );
                 },
               ),
             ),
           )
         ],
       ),
+    );
+  }
+
+  createRoomDialog(String userID) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Yeni bir sohbet başlatmak için konu giriniz"),
+          content: TextField(
+            autofocus: true,
+            textCapitalization: TextCapitalization.words,
+            onChanged: (text) {
+              roomName = text;
+            },
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                "İPTAL",
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text("OLUŞTUR"),
+              onPressed: () async {
+                await Motor().createRoom(widget.me.accessToken, roomName, userID);
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -64,7 +64,7 @@ class _RoomsPageState extends State<RoomsPage> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.search),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => new UserSearchPage(widget.me)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => new  UserSearchPage(widget.me)));
         },
       ),
     );
